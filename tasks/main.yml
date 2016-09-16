@@ -1,0 +1,13 @@
+---
+- name: Install PDF Expert via Mac App Store
+  command: mas install "{{ item.id }}"
+  args:
+    creates: /Applications/{{ item.name }}.app
+  with_items:
+    - { id: 1055273043, name: "PDF Expert" }
+  when: ansible_os_family == "Darwin" and prefer_mas_over_homebrew == true
+
+- name: Install PDF Expert via Homebrew
+  homebrew_cask:
+    name: pdf-expert
+  when: ansible_os_family == "Darwin" and prefer_mas_over_homebrew == false
